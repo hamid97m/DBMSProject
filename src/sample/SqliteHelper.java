@@ -37,69 +37,33 @@ public class SqliteHelper
         }
     }
 
-//    public void insertNode(RuleNode node)
-//    {
-//        try
-//        {
-//            String query = String.format("INSERT INTO %s (%s, %s, %s, %s) VALUES (?,?,?,?);",
-//                    TBL_NAME, COL_PARENT, COL_TITLE, COL_CONTENT, COL_IS_LEAF);
-//
-//            PreparedStatement stmt = connection.prepareStatement(query);
-//            if (node.getParentId() == 0)
-//            {
-//                stmt.setNull(1, Types.INTEGER);
-//            }
-//            else
-//            {
-//                stmt.setInt(1, node.getParentId());
-//            }
-//            stmt.setString(2, node.getTitle());
-//            stmt.setString(3, node.getContent());
-//            stmt.setBoolean(4, node.isLeaf());
-//            stmt.executeUpdate();
-//            stmt.close();
-//        }
-//        catch (SQLException e)
-//        {
-//            e.printStackTrace();
-//
-//        }
-//    }
-//
-//    public void deleteNode(int nodeId)
-//    {
-//        try
-//        {
-//            String query = String.format("DELETE FROM %s WHERE %s = ?;", TBL_NAME, COL_ID);
-//            PreparedStatement stmt = connection.prepareStatement(query);
-//            stmt.setInt(1, nodeId);
-//            stmt.executeUpdate();
-//            stmt.close();
-//        }
-//        catch (SQLException e)
-//        {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    public void updateNode(String title, int nodeId)
-//    {
-//        try
-//        {
-//            String query = String.format("UPDATE %s SET %s = ? WHERE %s = ?", TBL_NAME, COL_TITLE, COL_ID);
-//            PreparedStatement stmt = connection.prepareStatement(query);
-//            stmt.setString(1, title);
-//            stmt.setInt(2, nodeId);
-//            stmt.executeUpdate();
-//            stmt.close();
-//
-//        }
-//        catch (SQLException e)
-//        {
-//            e.printStackTrace();
-//        }
-//    }
-//
+    public void insertOrder(OrderModel node)
+    {
+        try
+        {
+            String query = String.format("INSERT INTO sale_order (order_date, delivery_date, transport_cost, shop_branch_id, cu_name, cu_ad_city, cu_ad_street, cu_ad_bulding_num) VALUES (?,?,?,?,?,?,?,?)");
+
+            PreparedStatement stmt = connection.prepareStatement(query);
+
+            stmt.setString(1, node.getOrder_date());
+            stmt.setString(2, node.getDelivery_date());
+            stmt.setString(3, node.getTransport_cost());
+            stmt.setString(4, node.getShop_bransh_id().toString());
+            stmt.setString(5, node.getCu_name());
+            stmt.setString(6, node.getCu_ad_city());
+            stmt.setString(7, node.getCu_ad_street());
+            stmt.setString(8, node.getCu_ad_building_num().toString());
+
+            stmt.executeUpdate();
+            stmt.close();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+
+        }
+    }
+
     public List<OrderModel> getOrders()
     {
         List<OrderModel> result = new ArrayList<>();

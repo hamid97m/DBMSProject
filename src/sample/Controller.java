@@ -1,11 +1,19 @@
 package sample;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import sample.models.OrderModel;
 
 import javax.swing.text.html.ListView;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -15,15 +23,51 @@ public class Controller {
     @FXML
     TreeView<String> orderTreeView;
 
+    @FXML
+    TextField branch ;
+    @FXML
+    TextField transport ;
+    @FXML
+    TextField name;
+    @FXML
+    TextField city;
+    @FXML
+    TextField bulding_number;
+    @FXML
+    TextField street;
+    @FXML
+    DatePicker delivery;
+    @FXML
+    Button addaddress;
+
+
 
     @FXML
     public void initialize()
     {
         db = new SqliteHelper();
         orderTreeView.setRoot(createTree(db.getOrders()));
+        addaddress.setOnAction(e -> addorder());
 
     }
 
+    private void addorder() {
+        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        String datedeliver = delivery.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+        OrderModel orderModel=new OrderModel();
+        orderModel.setCu_ad_street(street.getText());
+        orderModel.setCu_ad_city(city.getText());
+        orderModel.setTransport_cost(transport.getText());
+        orderModel.setCu_ad_building_num(Integer.parseInt(bulding_number.getText()));
+        orderModel.setOrder_date(date);
+        orderModel.setDelivery_date(datedeliver);
+        orderModel.setCu_name(name.getText());
+        orderModel.setShop_bransh_id(Integer.parseInt(branch.getText()));
+
+        db.insertOrder(orderModel);
+        orderTreeView.setRoot(createTree(db.getOrders()));
+    }
 
 
     private TreeItem<String> createTree(List<OrderModel> nodes)
@@ -60,6 +104,7 @@ public class Controller {
             item.getChildren().add(item7);
             item.getChildren().add(item8);
             rootItem.getChildren().add(item);
+
 
 
         }
