@@ -1,38 +1,30 @@
 package sample;
 
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import sample.models.OrderModel;
+import sample.models.ProductModel;
 
-import javax.swing.text.html.ListView;
-import java.awt.event.MouseEvent;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.Hashtable;
 import java.util.List;
 
 public class Controller {
     private SqliteHelper db;
 
-    private int localorder_id=0;
+    private int localorder_id = 0;
 
     @FXML
     TreeView<String> orderTreeView;
+    @FXML
+    TreeView<String> product_treeview;
 
     @FXML
-    TextField branch ;
+    TextField branch;
     @FXML
-    TextField transport ;
+    TextField transport;
     @FXML
     TextField name;
     @FXML
@@ -64,10 +56,8 @@ public class Controller {
     Text order_id;
 
 
-
     @FXML
-    public void initialize()
-    {
+    public void initialize() {
         db = new SqliteHelper();
         orderTreeView.setRoot(createTree(db.getOrders()));
         addaddress.setOnAction(e -> addorder());
@@ -80,22 +70,26 @@ public class Controller {
     }
 
     private void search() {
-        if (search.getText().toString().equals("")){
+        if (search.getText().toString().equals("")) {
             orderTreeView.setRoot(createTree(db.getOrders()));
-        }else {
+        } else {
             orderTreeView.setRoot(createTree(db.search(Integer.parseInt(search.getText()))));
         }
     }
 
     private void addorderproduct() {
-        db.insertOrderProduct(localorder_id,Integer.parseInt(productid.getText()),Integer.parseInt(countproduct.getText()));
+        db.insertOrderProduct(localorder_id, Integer.parseInt(productid.getText()), Integer.parseInt(countproduct.getText()));
         countproduct.setText("");
         productid.setText("");
+        product_treeview.setRoot(createProductTree(db.getProducts(localorder_id)));
+
     }
 
     private void handle(String newValue) {
         order_id.setText("شماره سفارش :" + newValue);
-        localorder_id=Integer.parseInt(newValue);
+        localorder_id = Integer.parseInt(newValue);
+        product_treeview.setRoot(createProductTree(db.getProducts(localorder_id)));
+
 
     }
 
@@ -103,7 +97,7 @@ public class Controller {
         String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         String datedeliver = delivery.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-        OrderModel orderModel=new OrderModel();
+        OrderModel orderModel = new OrderModel();
         orderModel.setCu_ad_street(street.getText());
         orderModel.setCu_ad_city(city.getText());
         orderModel.setTransport_cost(transport.getText());
@@ -118,29 +112,28 @@ public class Controller {
     }
 
 
-    private TreeItem<String> createTree(List<OrderModel> nodes)
-    {
-        TreeItem<String> rootItem = new TreeItem<String> ("سفارشات");
+    private TreeItem<String> createTree(List<OrderModel> nodes) {
+        TreeItem<String> rootItem = new TreeItem<String>("سفارشات");
         rootItem.setExpanded(true);
-        for (int i = 0; i <nodes.size(); i++) {
-            TreeItem<String> item = new TreeItem<String> (nodes.get(i).getOrder_id().toString());
-            TreeItem<String> item1=new TreeItem<>();
-            TreeItem<String> item2=new TreeItem<>();
-            TreeItem<String> item3=new TreeItem<>();
-            TreeItem<String> item4=new TreeItem<>();
-            TreeItem<String> item5=new TreeItem<>();
-            TreeItem<String> item6=new TreeItem<>();
-            TreeItem<String> item7=new TreeItem<>();
-            TreeItem<String> item8=new TreeItem<>();
+        for (int i = 0; i < nodes.size(); i++) {
+            TreeItem<String> item = new TreeItem<String>(nodes.get(i).getOrder_id().toString());
+            TreeItem<String> item1 = new TreeItem<>();
+            TreeItem<String> item2 = new TreeItem<>();
+            TreeItem<String> item3 = new TreeItem<>();
+            TreeItem<String> item4 = new TreeItem<>();
+            TreeItem<String> item5 = new TreeItem<>();
+            TreeItem<String> item6 = new TreeItem<>();
+            TreeItem<String> item7 = new TreeItem<>();
+            TreeItem<String> item8 = new TreeItem<>();
 
-                item6 = new TreeItem<String> (nodes.get(i).getOrder_date()+" = تاریخ خرید");
-                item1 = new TreeItem<String> (nodes.get(i).getDelivery_date()+" = تاریخ تحویل");
-                item2 = new TreeItem<String> (nodes.get(i).getShop_bransh_id()+" = شعبه");
-                item3 = new TreeItem<String> (nodes.get(i).getTransport_cost()+" = هزینه حمل و نقل");
-                item4 = new TreeItem<String> (nodes.get(i).getCu_name()+" = نام مشتری ");
-                item5 = new TreeItem<String> (nodes.get(i).getCu_ad_city()+" = شهر");
-                item7 = new TreeItem<String> (nodes.get(i).getCu_ad_building_num()+" = پلاک");
-                item8 = new TreeItem<String> (nodes.get(i).getCu_ad_street()+" = خیابان");
+            item6 = new TreeItem<String>(nodes.get(i).getOrder_date() + " = تاریخ خرید");
+            item1 = new TreeItem<String>(nodes.get(i).getDelivery_date() + " = تاریخ تحویل");
+            item2 = new TreeItem<String>(nodes.get(i).getShop_bransh_id() + " = شعبه");
+            item3 = new TreeItem<String>(nodes.get(i).getTransport_cost() + " = هزینه حمل و نقل");
+            item4 = new TreeItem<String>(nodes.get(i).getCu_name() + " = نام مشتری ");
+            item5 = new TreeItem<String>(nodes.get(i).getCu_ad_city() + " = شهر");
+            item7 = new TreeItem<String>(nodes.get(i).getCu_ad_building_num() + " = پلاک");
+            item8 = new TreeItem<String>(nodes.get(i).getCu_ad_street() + " = خیابان");
 
 
             item.getChildren().add(item1);
@@ -154,9 +147,28 @@ public class Controller {
             rootItem.getChildren().add(item);
 
 
-
         }
 
+
+        return rootItem;
+    }
+
+    private TreeItem<String> createProductTree(List<ProductModel> nodes) {
+        TreeItem<String> rootItem = new TreeItem<String>("کد محصولات");
+        rootItem.setExpanded(true);
+        for (int i = 0; i < nodes.size(); i++) {
+            TreeItem<String> item = new TreeItem<String>(nodes.get(i).getProduct_id().toString());
+            TreeItem<String> item1 = new TreeItem<>();
+
+
+            item1 = new TreeItem<String>(nodes.get(i).getCount() + " = تعداد");
+
+            item.getChildren().add(item1);
+
+            rootItem.getChildren().add(item);
+
+
+        }
 
 
         return rootItem;

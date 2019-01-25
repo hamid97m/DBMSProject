@@ -2,6 +2,7 @@ package sample;
 
 
 import sample.models.OrderModel;
+import sample.models.ProductModel;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -109,6 +110,35 @@ public class SqliteHelper
                 orderModel.setCu_ad_building_num(rs.getInt("cu_ad_bulding_num"));
 
                 result.add(orderModel);
+            }
+            rs.close();
+            stmt.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public List<ProductModel> getProducts(int order_id)
+    {
+        List<ProductModel> result = new ArrayList<>();
+        try
+        {
+            String query = String.format("SELECT  product.product_id, product.order_id, product.count FROM  order_product AS product JOIN sale_order AS sale  ON product.order_id=sale.order_id  WHERE product.order_id="+order_id);
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next())
+            {
+                ProductModel productModel=new ProductModel();
+                productModel.setCount(rs.getInt("count"));
+                productModel.setOrder_id(rs.getInt("order_id"));
+                productModel.setProduct_id(rs.getInt("product_id"));
+
+
+                result.add(productModel);
             }
             rs.close();
             stmt.close();
