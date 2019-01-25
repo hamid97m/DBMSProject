@@ -6,21 +6,28 @@
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
  
-       <TreeView fx:id="orderTreeView" layoutX="34.0" layoutY="29.0" prefHeight="400.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+       <TreeView fx:id="orderTreeView" layoutX="34.0" layoutY="73.0" prefHeight="400.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 
 
-      <TextField fx:id="branch" layoutX="449.0" layoutY="38.0" prefHeight="26.0" prefWidth="174.0" promptText="شعبه" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-    <DatePicker fx:id="delivery" layoutX="449.0" layoutY="77.0" prefHeight="26.0" prefWidth="174.0" promptText="زمان تحویل" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-    <TextField fx:id="transport" layoutX="449.0" layoutY="125.0" prefHeight="26.0" prefWidth="174.0" promptText="هزینه حمل و نقل" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-    <TextField fx:id="name" layoutX="449.0" layoutY="175.0" prefHeight="26.0" prefWidth="174.0" promptText="نام مشتری" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-    <TextField fx:id="city" layoutX="449.0" layoutY="216.0" prefHeight="26.0" prefWidth="174.0" promptText="شهر" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-    <TextField fx:id="bulding_number" layoutX="449.0" layoutY="315.0" prefHeight="26.0" prefWidth="174.0" promptText="پلاک" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-    <TextField fx:id="street" layoutX="449.0" layoutY="265.0" prefHeight="26.0" prefWidth="174.0" promptText="خیابان" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-    <Button fx:id="addaddress" layoutX="449.0" layoutY="390.0" prefHeight="26.0" prefWidth="174.0" text="افزودن سفارش" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <TextField fx:id="branch" layoutX="343.0" layoutY="38.0" prefHeight="26.0" prefWidth="174.0" promptText="شعبه" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+    <DatePicker fx:id="delivery" layoutX="343.0" layoutY="80.0" prefHeight="26.0" prefWidth="174.0" promptText="زمان تحویل" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+    <TextField fx:id="transport" layoutX="343.0" layoutY="126.0" prefHeight="26.0" prefWidth="174.0" promptText="هزینه حمل و نقل" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+    <TextField fx:id="name" layoutX="343.0" layoutY="166.0" prefHeight="26.0" prefWidth="174.0" promptText="نام مشتری" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+    <TextField fx:id="city" layoutX="343.0" layoutY="210.0" prefHeight="26.0" prefWidth="174.0" promptText="شهر" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+    <TextField fx:id="bulding_number" layoutX="343.0" layoutY="314.0" prefHeight="26.0" prefWidth="174.0" promptText="پلاک" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+    <TextField fx:id="street" layoutX="343.0" layoutY="260.0" prefHeight="26.0" prefWidth="174.0" promptText="خیابان" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+    <Button fx:id="addaddress" layoutX="343.0" layoutY="390.0" prefHeight="26.0" prefWidth="174.0" text="افزودن سفارش" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
+    <Text fx:id="order_id" layoutX="579.0" layoutY="55.0" text="شما سفارشی را انتخاب نکرده اید" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+    <Button fx:id="addorderproduct" layoutX="579.0" layoutY="166.0" prefHeight="26.0" prefWidth="174.0" text="افزودن محصول به سفارش" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+    <TextField fx:id="productid" layoutX="579.0" layoutY="67.0" prefHeight="26.0" prefWidth="174.0" promptText="کد محصول" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+    <TextField fx:id="countproduct" layoutX="579.0" layoutY="113.0" prefHeight="26.0" prefWidth="174.0" promptText="تعداد" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+   <TextField fx:id="search" alignment="CENTER" layoutX="78.0" layoutY="14.0" prefHeight="26.0" prefWidth="174.0" promptText="جست و جو" />
+   <Button fx:id="btnsearch" alignment="CENTER" layoutX="78.0" layoutY="45.0" prefHeight="26.0" prefWidth="174.0" text="جست و جو" />
 
 
 </AnchorPane>

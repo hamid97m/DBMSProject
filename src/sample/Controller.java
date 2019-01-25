@@ -1,15 +1,19 @@
 package sample;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import sample.models.OrderModel;
 
 import javax.swing.text.html.ListView;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
@@ -19,6 +23,8 @@ import java.util.List;
 
 public class Controller {
     private SqliteHelper db;
+
+    private int localorder_id=0;
 
     @FXML
     TreeView<String> orderTreeView;
@@ -40,6 +46,23 @@ public class Controller {
     @FXML
     Button addaddress;
 
+    @FXML
+    Button addorderproduct;
+    @FXML
+    TextField productid;
+    @FXML
+    TextField countproduct;
+
+
+    @FXML
+    Button btnsearch;
+    @FXML
+    TextField search;
+
+
+    @FXML
+    Text order_id;
+
 
 
     @FXML
@@ -48,6 +71,31 @@ public class Controller {
         db = new SqliteHelper();
         orderTreeView.setRoot(createTree(db.getOrders()));
         addaddress.setOnAction(e -> addorder());
+        addorderproduct.setOnAction(e -> addorderproduct());
+        btnsearch.setOnAction(e -> search());
+
+
+        orderTreeView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> handle(newValue.getValue()));
+
+    }
+
+    private void search() {
+        if (search.getText().toString().equals("")){
+            orderTreeView.setRoot(createTree(db.getOrders()));
+        }else {
+            orderTreeView.setRoot(createTree(db.search(Integer.parseInt(search.getText()))));
+        }
+    }
+
+    private void addorderproduct() {
+        db.insertOrderProduct(localorder_id,Integer.parseInt(productid.getText()),Integer.parseInt(countproduct.getText()));
+        countproduct.setText("");
+        productid.setText("");
+    }
+
+    private void handle(String newValue) {
+        order_id.setText("شماره سفارش :" + newValue);
+        localorder_id=Integer.parseInt(newValue);
 
     }
 

@@ -63,6 +63,28 @@ public class SqliteHelper
 
         }
     }
+    public void insertOrderProduct(int order_id,int product_id,int count)
+    {
+        try
+        {
+            String query = String.format("INSERT INTO order_product (order_id, product_id, count) VALUES (?,?,?)");
+
+            PreparedStatement stmt = connection.prepareStatement(query);
+
+            stmt.setInt(1, order_id);
+            stmt.setInt(2, product_id);
+            stmt.setInt(3, count);
+
+
+            stmt.executeUpdate();
+            stmt.close();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+
+        }
+    }
 
     public List<OrderModel> getOrders()
     {
@@ -85,7 +107,40 @@ public class SqliteHelper
                 orderModel.setCu_ad_city(rs.getString("cu_ad_city"));
                 orderModel.setCu_ad_street(rs.getString("cu_ad_street"));
                 orderModel.setCu_ad_building_num(rs.getInt("cu_ad_bulding_num"));
-                System.out.println(orderModel.getCu_ad_city());
+
+                result.add(orderModel);
+            }
+            rs.close();
+            stmt.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public List<OrderModel> search(int id)
+    {
+        List<OrderModel> result = new ArrayList<>();
+        try
+        {
+            String query = String.format("SELECT * FROM  sale_order WHERE order_id="+id);
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next())
+            {
+                OrderModel orderModel=new OrderModel();
+                orderModel.setOrder_id(rs.getInt("order_id"));
+                orderModel.setOrder_date(rs.getString("order_date"));
+                orderModel.setDelivery_date(rs.getString("delivery_date"));
+                orderModel.setTransport_cost(rs.getString("transport_cost"));
+                orderModel.setShop_bransh_id(rs.getInt("shop_branch_id"));
+                orderModel.setCu_name(rs.getString("cu_name"));
+                orderModel.setCu_ad_city(rs.getString("cu_ad_city"));
+                orderModel.setCu_ad_street(rs.getString("cu_ad_street"));
+                orderModel.setCu_ad_building_num(rs.getInt("cu_ad_bulding_num"));
 
                 result.add(orderModel);
             }
